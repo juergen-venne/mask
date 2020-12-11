@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'mask_check_field_key' => [
         'path' => '/mask/checkFieldKey',

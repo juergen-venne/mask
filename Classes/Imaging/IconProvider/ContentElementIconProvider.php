@@ -1,46 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
 namespace MASK\Mask\Imaging\IconProvider;
 
+use InvalidArgumentException;
+use MASK\Mask\Domain\Repository\StorageRepository;
+use MASK\Mask\Domain\Service\SettingsService;
+use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconProviderInterface;
-use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 
-/* * *************************************************************
- *  Copyright notice
- *
- *  (c) 2015 Benjamin Butschell <bb@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
-
-/**
- * @package mask
- * @author Benjamin Butschell <bb@webprofil.at>
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- */
 class ContentElementIconProvider implements IconProviderInterface
 {
 
     /**
      * StorageRepository
-     * @var \MASK\Mask\Domain\Repository\StorageRepository
+     * @var StorageRepository
      */
     protected $storageRepository;
 
@@ -53,7 +44,7 @@ class ContentElementIconProvider implements IconProviderInterface
     /**
      * SettingsService
      *
-     * @var \MASK\Mask\Domain\Service\SettingsService
+     * @var SettingsService
      */
     protected $settingsService;
 
@@ -64,24 +55,28 @@ class ContentElementIconProvider implements IconProviderInterface
      */
     protected $extSettings;
 
+    public function __construct(StorageRepository $storageRepository, SettingsService $settingsService)
+    {
+        $this->storageRepository = $storageRepository;
+        $this->settingsService = $settingsService;
+        $this->extSettings = $settingsService->get();
+    }
+
     /**
-     *
      * @param Icon $icon
      * @param array $options
-     * @author Benjamin Butschell <bb@webprofil.at>
+     * @throws Exception
      */
-    public function prepareIconMarkup(Icon $icon, array $options = array())
+    public function prepareIconMarkup(Icon $icon, array $options = []): void
     {
         // error checking
         if (empty($options['contentElementKey'])) {
-            throw new \InvalidArgumentException('The option "contentElementKey" is required and must not be empty',
-                1440754978);
+            throw new InvalidArgumentException(
+                'The option "contentElementKey" is required and must not be empty',
+                1440754978
+            );
         }
-        $this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        $this->storageRepository = $this->objectManager->get("MASK\Mask\Domain\Repository\StorageRepository");
-        $this->settingsService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Domain\\Service\\SettingsService');
-        $this->extSettings = $this->settingsService->get();
-        $this->contentElement = $this->storageRepository->loadElement("tt_content", $options["contentElementKey"]);
+        $this->contentElement = $this->storageRepository->loadElement('tt_content', $options['contentElementKey']);
         $icon->setMarkup($this->generateMarkup($icon, $options));
     }
 
@@ -90,41 +85,46 @@ class ContentElementIconProvider implements IconProviderInterface
      * @param Icon $icon
      * @param array $options
      * @return string
-     * @throws \InvalidArgumentException
-     * @author Benjamin Butschell <bb@webprofil.at>
+     * @throws InvalidArgumentException
      */
-    protected function generateMarkup(Icon $icon, array $options)
+    protected function generateMarkup(Icon $icon, array $options): string
     {
-
+        $styles = [];
         $previewIconAvailable = $this->isPreviewIconAvailable($options['contentElementKey']);
         $fontAwesomeKeyAvailable = $this->isFontAwesomeKeyAvailable($this->contentElement);
 
-
         // decide what kind of icon to render
-        if ($fontAwesomeKeyAvailable) {
-
+        if ($fontAwesomeKeyAvailable && !$previewIconAvailable) {
             $color = $this->getColor($this->contentElement);
+
             if ($color) {
-                $styles[] = "color: #" . $color;
+                $styles[] = 'color: #' . $color;
             }
             if (count($styles)) {
-                $markup = '<span class="icon-unify" style="' . implode("; ",
-                        $styles) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
+                $markup = '<span class="icon-unify" style="' . implode(
+                    '; ',
+                    $styles
+                ) . '"><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
             } else {
                 $markup = '<span class="icon-unify" ><i class="fa fa-' . htmlspecialchars($this->getFontAwesomeKey($this->contentElement)) . '"></i></span>';
             }
         } else {
             if ($previewIconAvailable) {
-                $markup = '<img src="' . PathUtility::getAbsoluteWebPath(PATH_site . ltrim($this->getPreviewIconPath($options['contentElementKey']),
-                            '/')) . '" alt="' . $this->contentElement["label"] . '" title="' . $this->contentElement["label"] . '"/>';
+                $markup = '<img src="' . str_replace(
+                    Environment::getPublicPath(),
+                    '',
+                    $this->getPreviewIconPath($options['contentElementKey'])
+                ) . '" alt="' . $this->contentElement['label'] . '" title="' . $this->contentElement['label'] . '"/>';
             } else {
                 $color = $this->getColor($this->contentElement);
                 if ($color) {
-                    $styles[] = "background-color: #" . $color;
+                    $styles[] = 'background-color: #' . $color;
                 }
-                $styles[] = "color: #fff";
-                $markup = '<span class="icon-unify mask-default-icon" style="' . implode("; ",
-                        $styles) . '">' . mb_substr($this->contentElement["label"], 0, 1) . '</span>';
+                $styles[] = 'color: #fff';
+                $markup = '<span class="icon-unify mask-default-icon" style="' . implode(
+                    '; ',
+                    $styles
+                ) . '">' . mb_substr($this->contentElement['label'], 0, 1) . '</span>';
             }
         }
 
@@ -134,59 +134,66 @@ class ContentElementIconProvider implements IconProviderInterface
     /**
      * Checks if a preview icon is available in defined folder
      * @param string $key
-     * @author Benjamin Butschell <bb@webprofil.at>
-     * @return boolean
+     * @return bool
      */
-    protected function isPreviewIconAvailable($key)
+    protected function isPreviewIconAvailable($key): bool
     {
-        if (file_exists(PATH_site . $this->getPreviewIconPath($key))) {
-            return true;
-        } else {
-            return false;
-        }
+        return file_exists($this->getPreviewIconPath($key));
     }
 
     /**
      * Checks if content element has set a fontawesome key
      * @param array $element
-     * @author Benjamin Butschell <bb@webprofil.at>
-     * @todo implement
-     * @return boolean
+     * @return bool
      */
-    protected function isFontAwesomeKeyAvailable($element)
+    protected function isFontAwesomeKeyAvailable($element): bool
     {
-        return trim($element["icon"]) != "";
+        return isset($element['icon']) && trim($element['icon']) !== '';
     }
 
     /**
      * @param string $key
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return string
      */
-    protected function getPreviewIconPath($key)
+    protected function getPreviewIconPath($key): string
     {
-        return $this->extSettings["preview"] . $key . '.png';
+        // the path to the file
+        $filePath = function ($key) {
+            return MaskUtility::getFileAbsFileName(
+                rtrim($this->extSettings['preview'], '/') . '/'
+            ) . $key . '.';
+        };
+
+        // search a fitting png or svg file in this path
+        $fileExtensions = ['png', 'svg'];
+        foreach ($fileExtensions as $fileExtension) {
+            $iconPath = $filePath($key) . $fileExtension;
+            if (file_exists($iconPath)) {
+                return $iconPath;
+            }
+        }
+
+        // if nothing found, return the path to the png file
+        return $filePath($key) . '.png';
     }
 
     /**
      * returns trimmed and unified font-awesome key
      * @param array $element
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return string
      */
-    protected function getFontAwesomeKey($element)
+    protected function getFontAwesomeKey($element): string
     {
-        return trim(str_replace("fa-", "", $element["icon"]));
+        return trim(str_replace('fa-', '', $element['icon']));
     }
 
     /**
      * returns trimmed and unified hex-code
      * @param array $element
-     * @author Benjamin Butschell <bb@webprofil.at>
      * @return string
      */
-    protected function getColor($element)
+    protected function getColor($element): string
     {
-        return trim(str_replace("#", "", $element["color"]));
+        return trim(str_replace('#', '', $element['color']));
     }
 }

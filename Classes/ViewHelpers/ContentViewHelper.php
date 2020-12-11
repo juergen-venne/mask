@@ -1,23 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
 namespace MASK\Mask\ViewHelpers;
 
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * ViewHelper for rendering any content element
- * @author Paul Beck
- * @link http://blog.teamgeist-medien.de/2014/01/extbase-fluid-viewhelper-fuer-tt_content-elemente-mit-namespaces.html Source
- *
  */
 class ContentViewHelper extends AbstractViewHelper
 {
-
     protected $escapeOutput = false;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @var ConfigurationManagerInterface
      */
     protected $configurationManager;
 
@@ -26,7 +38,7 @@ class ContentViewHelper extends AbstractViewHelper
      */
     protected $cObj;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('uid', 'integer', 'Uid of the content element', true);
     }
@@ -36,25 +48,24 @@ class ContentViewHelper extends AbstractViewHelper
      *
      * @return string parsed content element
      */
-    public function render()
+    public function render(): string
     {
-        $conf = array(
+        $conf = [
             'tables' => 'tt_content',
             'source' => $this->arguments['uid'],
             'dontCheckPid' => 1
-        );
+        ];
         return $this->cObj->cObjGetSingle('RECORDS', $conf);
     }
 
     /**
      * Injects Configuration Manager
      *
-     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
-     * @return void
+     * @param ConfigurationManagerInterface $configurationManager
      */
     public function injectConfigurationManager(
-        \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
-    ) {
+        ConfigurationManagerInterface $configurationManager
+    ): void {
         $this->configurationManager = $configurationManager;
         $this->cObj = $this->configurationManager->getContentObject();
     }

@@ -8,6 +8,10 @@ Create your own content elements and page templates. Easy to use, even without p
 
 Mask is a TYPO3 extension for creating content elements and extending page templates. It’s possible to add new fields to any element. Fields can have several types, for example: text, file, relations, rich text, ...
 
+## Read what's new in mask version 6
+
+[Mask version 6 changes](https://github.com/gernott/mask/blob/master/Documentation/ChangeLog/6.0/Index.rst)
+
 ## Advantages of Mask
 
 * Mask stores the content in columns in database tables – not as XML (Flexform)
@@ -20,13 +24,14 @@ Mask is a TYPO3 extension for creating content elements and extending page templ
 
 ## Need help?
 
-* Read how to install, configure and use mask in the [official documentation](https://docs.typo3.org/typo3cms/extensions/mask/)
+* Read how to install, configure and use mask in the [official documentation](https://docs.typo3.org/p/mask/mask/master/en-us/)
+* Join the "#ext-mask" channel on [TYPO3 Slack](https://typo3.org/community/meet/chat-slack) and ask the mask community.
 * [Visit our website](https://mask.webprofil.at) to find more information about mask.
 
 ## Found a bug?
 * first check out the master branch and verify that the issue is not yet solved
-* have a look at the existing [issues](https://github.com/Gernott/mask/issues/), to prevent duplicates
-* if not found, report the bug in our [issue tracker](https://github.com/Gernott/mask/issues/new/)
+* have a look at the existing [issues](https://github.com/gernott/mask/issues/), to prevent duplicates
+* if not found, report the bug in our [issue tracker](https://github.com/gernott/mask/issues/new/)
 
 ## Like a new feature?
 * have a look at our [wishlist](https://mask.webprofil.at/featurelist/overview/)

@@ -1,30 +1,41 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
 namespace MASK\Mask\ViewHelpers;
 
-use TYPO3\CMS\Extbase\Annotation\Inject;
+use MASK\Mask\Helper\FieldHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- *
- * @package TYPO3
- * @subpackage mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- * @author Benjamin Butschell bb@webprofil.at>
- *
- */
 class LabelViewHelper extends AbstractViewHelper
 {
 
     /**
      * FieldHelper
      *
-     * @var \MASK\Mask\Helper\FieldHelper
-     * @Inject()
+     * @var FieldHelper
      */
     protected $fieldHelper;
 
-    public function initializeArguments()
+    public function __construct(FieldHelper $fieldHelper)
+    {
+        $this->fieldHelper = $fieldHelper;
+    }
+
+    public function initializeArguments(): void
     {
         $this->registerArgument('elementKey', 'string', 'Key of element', true);
         $this->registerArgument('fieldKey', 'string', 'Key of field', true);
@@ -42,13 +53,12 @@ class LabelViewHelper extends AbstractViewHelper
         $field = $this->arguments['field'];
         $table = $this->arguments['table'];
 
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
         // if we have the whole field configuration
         if ($field) {
             // check if this field is in an repeating field
-            if ($field["inlineParent"]) {
+            if (isset($field['inlineParent']) && !is_array($field['inlineParent'])) {
                 // if yes, the label is in the configuration
-                $label = $field["label"];
+                $label = $field['label'];
             } else {
                 // otherwise the type can only be tt_content or pages
                 if ($table) {

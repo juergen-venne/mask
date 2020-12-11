@@ -1,38 +1,50 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
 namespace MASK\Mask\ViewHelpers;
 
-use TYPO3\CMS\Extbase\Annotation\Inject;
+use MASK\Mask\Helper\FieldHelper;
+use MASK\Mask\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-/**
- *
- * @package TYPO3
- * @subpackage mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- * @author Benjamin Butschell <bb@webprofil.at>
- *
- */
 class LinkoptionViewHelper extends AbstractViewHelper
 {
 
     /**
      * Utility
      *
-     * @var \MASK\Mask\Utility\GeneralUtility
-     * @Inject()
+     * @var GeneralUtility
      */
     protected $generalUtility;
 
     /**
      * Utility
      *
-     * @var \MASK\Mask\Helper\FieldHelper
-     * @Inject()
+     * @var FieldHelper
      */
     protected $fieldHelper;
 
-    public function initializeArguments()
+    public function __construct(GeneralUtility $generalUtility, FieldHelper $fieldHelper)
+    {
+        $this->generalUtility = $generalUtility;
+        $this->fieldHelper = $fieldHelper;
+    }
+
+    public function initializeArguments(): void
     {
         $this->registerArgument('fieldKey', 'string', 'TCA Type', true);
         $this->registerArgument('elementKey', 'string', 'Key of element', true);
@@ -42,20 +54,13 @@ class LinkoptionViewHelper extends AbstractViewHelper
     /**
      * Checks if a $evalValue is set in a field
      *
-     * @param string $fieldKey TCA Type
-     * @param string $elementKey key of the element
-     * @param string $evalValue value to search for
-     * @return boolean $evalValue is set
-     * @author Benjamin Butschell bb@webprofil.at>
+     * @return bool $evalValue is set
      */
-    public function render()
+    public function render(): bool
     {
         $fieldKey = $this->arguments['fieldKey'];
         $elementKey = $this->arguments['elementKey'];
         $evalValue = $this->arguments['evalValue'];
-
-        $this->generalUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Utility\\GeneralUtility');
-        $this->fieldHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('MASK\\Mask\\Helper\\FieldHelper');
 
         $type = $this->fieldHelper->getFieldType($fieldKey, $elementKey);
         return $this->generalUtility->isBlindLinkOptionSet($fieldKey, $evalValue, $type);

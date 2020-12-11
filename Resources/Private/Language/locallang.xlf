@@ -3,49 +3,64 @@
 	<file source-language="en" datatype="plaintext" original="messages" date="2015-02-12T18:53:00Z" product-name="mask">
 		<header/>
 		<body>
-			<trans-unit id="tx_mask.field.String">
+			<trans-unit id="tx_mask.field.string">
 				<source>String</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Integer">
+			<trans-unit id="tx_mask.field.integer">
 				<source>Integer</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Float">
+			<trans-unit id="tx_mask.field.float">
 				<source>Float</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Link">
+			<trans-unit id="tx_mask.field.link">
 				<source>Link</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Date">
+			<trans-unit id="tx_mask.field.date">
 				<source>Date</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Datetime">
+			<trans-unit id="tx_mask.field.datetime">
 				<source>Datetime</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Text">
+			<trans-unit id="tx_mask.field.timestamp">
+				<source>Timestamp</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.timestamp_eval">
+				<source>Date or Datetime</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.text">
 				<source>Text</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Richtext">
+			<trans-unit id="tx_mask.field.richtext">
 				<source>Richtext</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Check">
+			<trans-unit id="tx_mask.field.check">
 				<source>Checkbox</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Radio">
+			<trans-unit id="tx_mask.field.radio">
 				<source>Radiobutton</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Select">
+			<trans-unit id="tx_mask.field.select">
 				<source>Selectbox</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.File">
+			<trans-unit id="tx_mask.field.group">
+				<source>Group</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.file">
 				<source>File</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Inline">
+			<trans-unit id="tx_mask.field.inline">
 				<source>Repeating</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Tab">
+			<trans-unit id="tx_mask.field.tab">
 				<source>Tab</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.Content">
+			<trans-unit id="tx_mask.field.palette">
+				<source>Palette</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.linebreak">
+				<source>Linebreak</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.content">
 				<source>Content</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.titleAdd">
@@ -65,6 +80,9 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.alpha">
 				<source>Only "a-z A-Z" characters</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.int">
+				<source>Value is casted to integer</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.alphanum">
 				<source>Only "a-z A-Z 0-9" characters</source>
@@ -93,6 +111,9 @@
 			<trans-unit id="tx_mask.field.num">
 				<source>Only "0-9" characters</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.double2">
+				<source>Convert to floating point</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.password">
 				<source>Password Field</source>
 			</trans-unit>
@@ -101,6 +122,12 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.timesec">
 				<source>Time field (h:m:s)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.date_selection">
+				<source>Show date selection</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.datetime_selection">
+				<source>Show date and time selection</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.unique">
 				<source>Field has to be unique in table</source>
@@ -149,6 +176,9 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.label">
 				<source>Label</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.description">
+				<source>Description</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.check.renderType">
 				<source>Rendertype</source>
@@ -213,18 +243,29 @@
 			<trans-unit id="tx_mask.field.inline.use_sortable">
 				<source>Activate Drag'n'Drop</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.inline.show_possible_localization_records">
+			<trans-unit id="tx_mask.field.inline.show_possible_localization_records.description">
 				<source>Show unlocalized records which are in the original language, but not yet localized</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_possible_localization_records">
+				<source>Show possible localization records</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_synchronization_link">
+				<source>Show synchronization link</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_synchronization_link_description">
 				<source>Show a “synchronize” link to update to a 1:1 translation with the original language</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_all_localization_link.description">
+				<source>Show the “localize all records” link to fetch untranslated records from the original language</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_all_localization_link">
-				<source>Show the “localize all records” link to fetch untranslated records from the original language
-				</source>
+				<source>Show all localization link</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.show_removed_localization_records">
 				<source>Show removed localization records</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.inline.show_removed_localization_records.description">
+				<source>Show records which were once localized but do not exist in the original language anymore.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.level_links_position">
 				<source>Where to show "Create new" Button</source>
@@ -242,19 +283,25 @@
 				<source>None</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localization_mode">
-				<source>Localization Mode (l10n_mode)</source>
+				<source>Localization Mode</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.l10n_mode.default">
 				<source>Default</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.l10n_mode.prefixLangTitle">
-				<source>Copy with prefix (prefixLangTitle)</source>
+				<source>Copy with prefix</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.l10n_mode.exclude">
-				<source>Keep the value or data from original language (exclude)</source>
+				<source>Keep the value or data from original language</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.localize_children_at_parent_localization">
 				<source>Localize Records when Content Element is localized</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.allowLanguageSynchronization">
+				<source>Allow language synchronization</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.allowLanguageSynchronization.description">
+				<source>Allows to select from three options: Copy from default language, copy from source language or set own value.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.inline.inline_label">
 				<source>Field that should be used as label for inline element (starting with tx_mask_)</source>
@@ -299,19 +346,22 @@
 				<source>Allowed File Extensions (all if empty)</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.file">
-				<source>Disable File:</source>
+				<source>File</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.mail">
-				<source>Mail:</source>
+				<source>Mail</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.page">
-				<source>Page:</source>
+				<source>Page</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.folder">
-				<source>Folder:</source>
+				<source>Folder</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.link.url">
-				<source>URL:</source>
+				<source>URL</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.link.telephone">
+				<source>Telephone</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.radio.items">
 				<source>Items ([label,key], one item each line, key (int) starts with 1)</source>
@@ -324,9 +374,6 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.field.richtext.default">
 				<source>Default</source>
-			</trans-unit>
-			<trans-unit id="tx_mask.field.richtext.rte_transform">
-				<source>Override rte_transform mode</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.file_folder">
 				<source>Files from Folder</source>
@@ -364,20 +411,74 @@
 			<trans-unit id="tx_mask.field.select.renderType.selectMultipleSideBySide">
 				<source>Shuttle</source>
 			</trans-unit>
-			<trans-unit id="tx_mask.field.select.renderType.selectMultipleSideBySide.search">
-				<source>Enable Search</source>
-			</trans-unit>
 			<trans-unit id="tx_mask.field.select.renderType.selectTree">
 				<source>Tree</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.items">
-				<source>Items ([label,id], one item each line, id (int or string))</source>
+				<source>Items ([label,id,icon path,description], one item each line, id (int or string))</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.foreign_table">
 				<source>foreign_table</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.select.foreign_table_where">
 				<source>foreign_table_where</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internal_type">
+				<source>Internal Type</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.allowed">
+				<source>Allowed tables (comma-separated)</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internalType.folder">
+				<source>Folder</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.internalType.db">
+				<source>Database</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.group.minitems">
+				<source>Minitems</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.editPopup">
+				<source>Edit Popup</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.addRecord">
+				<source>Add Record</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.listModule">
+				<source>List Module</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.recordsOverview">
+				<source>Records Overview</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.tableList">
+				<source>Table List</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.elementBrowser">
+				<source>Element Browser</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.multiple">
+				<source>Multiple</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.editPopup.description">
+				<source>Shortcut to edit referenced elements directly in a popup.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.addRecord.description">
+				<source>Directly create and add a related record.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.listModule.description">
+				<source>Open the list module for the first allowed table.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.recordsOverview.description">
+				<source>Render an overview of the selected records.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.tableList.description">
+				<source>Render a list of allowed tables and link to element browser.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.elementBrowser.description">
+				<source>Renders a button to open element browser.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.group.multiple.description">
+				<source>Allows the same item more than once in a list.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.string.size">
 				<source>Size of Formfield</source>
@@ -413,7 +514,7 @@
 				<source>Default</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.text.wrap">
-				<source>Deactivate Wrap</source>
+				<source>Virtual wrap</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.field.text.format">
 				<source>T3-Editor</source>
@@ -445,13 +546,15 @@
 			<trans-unit id="tx_mask.field.text.format.mixed">
 				<source>Mixed</source>
 			</trans-unit>
-
+			<trans-unit id="tx_mask.blindLinkOptions">
+				<source>Link options that should be displayed</source>
+			</trans-unit>
 
 			<trans-unit id="tx_mask.content.title">
 				<source>Title</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.error">
-				<source>Error!</source>
+				<source>Missing folders!</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.content.image">
 				<source>Image</source>
@@ -541,13 +644,34 @@
 				<source>Extend Backend-Layout</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.nobackendlayout">
-				<source>No Backend-Layout found. Create at least one Backend-Layout in module "List".</source>
+				<source>Create at least one Backendlayout in module "List".</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.warning">
-				<source>Caution!</source>
+				<source>No Backendlayout found</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.page.updatedpage">
 				<source>Backend-Layout was updated.</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.page.extend">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.create">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.create_content_element">
+				<source>Create new content element</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.fields_of_element">
+				<source>Fields of this element</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.fields_of_element_be_layout">
+				<source>Fields of backend layout</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.all.add_new_fields">
+				<source>Add new fields</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.content.createdHtml">
+				<source>File was created.</source>
 			</trans-unit>
 
 
@@ -564,10 +688,10 @@
 				<source>Element-key (unique, lowercase)</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.icon">
-				<source>FontAwesome-Icon</source>
+				<source>Icon</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.color">
-				<source>Colour (HEX-Code)</source>
+				<source>Colour</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.configure">
 				<source>Configure</source>
@@ -579,8 +703,8 @@
 				<source>Page Templates</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.confirmdelete">
-				<source>
-					<![CDATA[<strong>Do you want to delete the content element?</strong> <br /><br />"Delete" only deletes the configuration. "Purge" deletes the configuration and all the corresponding template files. The content in the database can be deleted via the install tool.]]></source>
+				<source>Do you want to delete the content element?
+					"Delete" only deletes the configuration. "Purge" deletes the configuration and all the corresponding template files. The content in the database can be deleted via the install tool.</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.abort">
 				<source>Abort</source>
@@ -599,7 +723,8 @@
 				</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.error.missingjson">
-				<source>Mask configuration mask.json is missing. Create missing file or change configuration in extension manager.
+				<source>Mask configuration mask.json is missing. Create missing file or change configuration in
+					extension manager.
 				</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.all.createmissingfolders">
@@ -630,11 +755,20 @@
 			<trans-unit id="tx_mask.tabs.appearance">
 				<source>Appearance and Behaviour</source>
 			</trans-unit>
+			<trans-unit id="tx_mask.tabs.fieldControl">
+				<source>Field Control</source>
+			</trans-unit>
 			<trans-unit id="tx_mask.tabs.localization">
 				<source>Localization</source>
 			</trans-unit>
 			<trans-unit id="tx_mask.tabs.files">
 				<source>Files</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.imageoverlayPalette">
+				<source>Show Image Overlay Palette</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.field.imageoverlayPalette.description">
+				<source>Shows additional fields: alternative, link and cropping</source>
 			</trans-unit>
 
 			<trans-unit id="mask_content_colpos">
@@ -647,6 +781,13 @@
 			</trans-unit>
 			<trans-unit id="tx_mask.content.multiuse.validation.title">
 				<source>Changes on Validation</source>
+			</trans-unit>
+
+			<trans-unit id="tx_mask.placeholder.label">
+				<source>The label of this field</source>
+			</trans-unit>
+			<trans-unit id="tx_mask.placeholder.description">
+				<source>Maybe add a short and helpful description for your editors</source>
 			</trans-unit>
 
 		</body>

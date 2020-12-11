@@ -1,51 +1,40 @@
 <?php
 
-namespace MASK\Mask\Hooks;
+declare(strict_types=1);
 
-/* * *************************************************************
- *  Copyright notice
+/*
+ * This file is part of the TYPO3 CMS project.
  *
- *  (c) 2010-2013 Extbase Team (http://forge.typo3.org/projects/typo3v4-mvc)
- *  Extbase is a backport of TYPO3 Flow. All credits go to the TYPO3 Flow team.
- *  All rights reserved
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *  A copy is found in the textfile GPL.txt and important notices to the license
- *  from the author is found in LICENSE.txt distributed with these scripts.
- *
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ * The TYPO3 project - inspiring people to share!
+ */
+
+namespace MASK\Mask\Hooks;
 
 use MASK\Mask\Domain\Repository\StorageRepository;
 use MASK\Mask\Domain\Service\SettingsService;
 use MASK\Mask\Helper\InlineHelper;
 use MASK\Mask\Utility\GeneralUtility as MaskUtility;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Backend\View\PageLayoutView;
+use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Exception;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Renders the backend preview of mask content elements
- *
- * @author Benjamin Butschell <bb@webprofil.at>
- * @package MASK
- * @subpackage mask
  */
-class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface
+class PageLayoutViewDrawItem implements PageLayoutViewDrawItemHookInterface
 {
 
     /**
@@ -66,7 +55,7 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
     /**
      * SettingsService
      *
-     * @var \MASK\Mask\Domain\Service\SettingsService
+     * @var SettingsService
      */
     protected $settingsService;
 
@@ -77,31 +66,35 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
      */
     protected $extSettings;
 
+    public function __construct(SettingsService $settingsService, InlineHelper $inlineHelper, StorageRepository $storageRepository)
+    {
+        $this->settingsService = $settingsService;
+        $this->extSettings = $this->settingsService->get();
+        $this->inlineHelper = $inlineHelper;
+        $this->storageRepository = $storageRepository;
+    }
+
     /**
      * Preprocesses the preview rendering of a content element.
      *
-     * @param \TYPO3\CMS\Backend\View\PageLayoutView $parentObject Calling parent object
-     * @param boolean $drawItem Whether to draw the item using the default functionalities
+     * @param PageLayoutView $parentObject Calling parent object
+     * @param bool $drawItem Whether to draw the item using the default functionalities
      * @param string $headerContent Header content
      * @param string $itemContent Item content
      * @param array $row Record row of tt_content
-     * @return void
      */
     public function preProcess(
-        \TYPO3\CMS\Backend\View\PageLayoutView &$parentObject,
+        PageLayoutView &$parentObject,
         &$drawItem,
         &$headerContent,
         &$itemContent,
         array &$row
-    ) {
-        $this->settingsService = GeneralUtility::makeInstance(SettingsService::class);
-        $this->extSettings = $this->settingsService->get();
-
+    ): void {
         // only render special backend preview if it is a mask element
-        if (substr($row['CType'], 0, 4) === "mask") {
+        if (strpos($row['CType'], 'mask') === 0) {
             $elementKey = substr($row['CType'], 5);
 
-            # fallback to prevent breaking change
+            // fallback to prevent breaking change
             $templatePathAndFilename = MaskUtility::getTemplatePath(
                 $this->extSettings,
                 $elementKey,
@@ -110,35 +103,32 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
             );
 
             if (file_exists($templatePathAndFilename)) {
-                // initialize some things we need
-                $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-                $this->inlineHelper = GeneralUtility::makeInstance(InlineHelper::class);
-                $this->storageRepository = $this->objectManager->get(StorageRepository::class);
-                $view = $this->objectManager->get(StandaloneView::class);
+                // initialize view
+                $view = GeneralUtility::makeInstance(StandaloneView::class);
 
                 // Load the backend template
                 $view->setTemplatePathAndFilename($templatePathAndFilename);
 
                 // if there are paths for layouts and partials set, add them to view
-                if (!empty($this->extSettings["layouts_backend"])) {
-                    $layoutRootPath = MaskUtility::getFileAbsFileName($this->extSettings["layouts_backend"]);
-                    $view->setLayoutRootPaths(array($layoutRootPath));
+                if (!empty($this->extSettings['layouts_backend'])) {
+                    $layoutRootPath = MaskUtility::getFileAbsFileName($this->extSettings['layouts_backend']);
+                    $view->setLayoutRootPaths([$layoutRootPath]);
                 }
-                if (!empty($this->extSettings["partials_backend"])) {
-                    $partialRootPath = MaskUtility::getFileAbsFileName($this->extSettings["partials_backend"]);
-                    $view->setPartialRootPaths(array($partialRootPath));
+                if (!empty($this->extSettings['partials_backend'])) {
+                    $partialRootPath = MaskUtility::getFileAbsFileName($this->extSettings['partials_backend']);
+                    $view->setPartialRootPaths([$partialRootPath]);
                 }
 
                 // Fetch and assign some useful variables
-                $data = $this->getContentObject($row["uid"]);
-                $element = $this->storageRepository->loadElement("tt_content", $elementKey);
-                $view->assign("row", $row);
-                $view->assign("data", $data);
+                $data = $this->getContentObject($row['uid']);
+                $element = $this->storageRepository->loadElement('tt_content', $elementKey);
+                $view->assign('row', $row);
+                $view->assign('data', $data);
 
                 // if the elementLabel contains LLL: then translate it
-                $elementLabel = $element["label"];
+                $elementLabel = $element['label'];
                 if (GeneralUtility::isFirstPartOfStr($elementLabel, 'LLL:')) {
-                    $elementLabel = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($elementLabel, "mask");
+                    $elementLabel = LocalizationUtility::translate($elementLabel, 'mask');
                 }
 
                 // Render everything
@@ -151,8 +141,9 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
                     ],
                     'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
                 ];
-                $editElementUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('record_edit',
-                    $editElementUrlParameters);
+
+                $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+                $editElementUrl = $uriBuilder->buildUriFromRoute('record_edit', $editElementUrlParameters);
                 $headerContent = '<strong><a href="' . $editElementUrl . '">' . $elementLabel . '</a></strong><br>';
                 $itemContent .= '<div style="display:block; padding: 10px 0 4px 0px;border-top: 1px solid #CACACA;margin-top: 6px;" class="content_preview_' . $elementKey . '">';
                 $itemContent .= $content;
@@ -167,8 +158,10 @@ class PageLayoutViewDrawItem implements \TYPO3\CMS\Backend\View\PageLayoutViewDr
      *
      * @param int $uid of content element to get
      * @return array with all properties of given content element uid
+     * @throws Exception
+     * @throws \Exception
      */
-    protected function getContentObject($uid)
+    protected function getContentObject($uid): array
     {
         $contentTable = 'tt_content';
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($contentTable);

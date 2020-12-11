@@ -1,6 +1,6 @@
 <?php
 
-namespace MASK\Mask\Backend;
+declare(strict_types=1);
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -15,13 +15,20 @@ namespace MASK\Mask\Backend;
  * The TYPO3 project - inspiring people to share!
  */
 
+namespace MASK\Mask\Backend;
+
+use TYPO3\CMS\Backend\View\BackendLayout\DataProviderContext;
+
 /**
  * Backend layout for CMS
  */
 class BackendLayoutView extends \TYPO3\CMS\Backend\View\BackendLayoutView
 {
 
-    public function createDataProviderContext()
+    /**
+     * @return DataProviderContext
+     */
+    public function createDataProviderContext(): DataProviderContext
     {
         return parent::createDataProviderContext();
     }

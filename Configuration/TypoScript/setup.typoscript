@@ -1,0 +1,31 @@
+plugin.tx_mask {
+    view {
+        templateRootPaths.0 = EXT:mask/Resources/Private/Templates/
+        partialRootPaths.0 = EXT:mask/Resources/Private/Partials/
+        layoutRootPaths.0 = EXT:mask/Resources/Private/Layouts/
+    }
+}
+
+module.tx_mask {
+    view {
+        templateRootPaths.0 = EXT:mask/Resources/Private/Backend/Templates/
+        partialRootPaths.0 = EXT:mask/Resources/Private/Backend/Partials/
+        layoutRootPaths.0 = EXT:mask/Resources/Private/Backend/Layouts/
+    }
+}
+
+# snippet to render content elements
+lib.tx_mask.content = RECORDS
+lib.tx_mask.content {
+    tables = tt_content
+    source.current = 1
+    dontCheckPid = 1
+}
+
+# mask content elements are rendered with this snippet
+lib.maskContentElement = FLUIDTEMPLATE
+lib.maskContentElement {
+    dataProcessing {
+        100 = MASK\Mask\DataProcessing\MaskProcessor
+    }
+}

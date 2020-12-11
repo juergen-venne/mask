@@ -4,9 +4,10 @@
 	"description": "Create your own content elements and page templates. Easy to use, even without programming skills because of the comfortable drag and drop user interface. Stored in structured database tables. Style your frontend with Fluid tags. Ideal, if you want to switch from Templavoila.",
 	"homepage": "https://mask.webprofil.at/",
 	"support": {
-		"source": "https://github.com/Gernott/mask",
-		"docs": "https://docs.typo3.org/typo3cms/extensions/mask/",
-		"issues": "https://github.com/Gernott/mask/issues/"
+		"source": "https://github.com/gernott/mask",
+		"docs": "https://docs.typo3.org/p/mask/mask/master/en-us/",
+		"issues": "https://github.com/gernott/mask/issues/",
+		"chat": "https://typo3.org/community/meet/chat-slack"
 	},
 	"keywords": [
 		"TYPO3 CMS",
@@ -20,24 +21,58 @@
 			"email": "office@webprofil.at",
 			"role": "Developer",
 			"homepage": "https://www.webprofil.at"
+		},
+		{
+			"name": "Nikita Hovratov",
+			"email": "info@nikita-hovratov.de",
+			"role": "Developer",
+			"homepage": "https://www.nikita-hovratov.de"
 		}
 	],
 	"license": "GPL-2.0-or-later",
+	"config": {
+		"vendor-dir": ".Build/vendor",
+		"bin-dir": ".Build/bin"
+	},
+	"require-dev": {
+		"typo3/testing-framework": "^6",
+		"phpunit/phpunit": "^8.4",
+		"phpstan/phpstan": "^0.12.13",
+		"rector/rector": "^0.7.14",
+		"friendsofphp/php-cs-fixer": "^2.16"
+	},
 	"require": {
 		"php": "^7.2",
 		"ext-json": "*",
-		"typo3/cms-core": "^9.5",
-		"typo3/cms-backend": "^9.5",
-		"typo3/cms-fluid": "^9.5",
-		"typo3/cms-extbase": "^9.5"
+		"typo3/cms-core": "^10.4",
+		"typo3/cms-backend": "^10.4",
+		"typo3/cms-fluid": "^10.4",
+		"typo3/cms-extbase": "^10.4",
+		"typo3/cms-fluid-styled-content": "^10.4"
 	},
 	"replace": {
-		"mask": "self.version",
 		"typo3-ter/mask": "self.version"
 	},
 	"autoload": {
 		"psr-4": {
 			"MASK\\Mask\\": "Classes/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"MASK\\Mask\\Tests\\": "Tests"
+		}
+	},
+	"scripts": {
+		"post-autoload-dump": [
+			"TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
+		]
+	},
+	"extra": {
+		"typo3/cms": {
+			"cms-package-dir": "{$vendor-dir}/typo3/cms",
+			"extension-key": "mask",
+			"web-dir": ".Build/Web"
 		}
 	}
 }

@@ -1,8 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
 namespace MASK\Mask\ViewHelpers;
 
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
@@ -15,27 +31,27 @@ class EditLinkViewHelper extends AbstractTagBasedViewHelper
     protected $tagName = 'a';
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $doEdit = 1;
 
     /**
      * @return BackendUserAuthentication
      */
-    protected function getBackendUser()
+    protected function getBackendUser(): BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
     }
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('element', 'array', '', true);
     }
 
     /**
      * returning a EditLink-Tag for TYPO3 Backend
-     * @param array $element
      * @return mixed
+     * @throws RouteNotFoundException
      */
     public function render()
     {
@@ -50,8 +66,8 @@ class EditLinkViewHelper extends AbstractTagBasedViewHelper
                 ],
                 'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
             ];
-            $uri = BackendUtility::getModuleUrl('record_edit', $urlParameters);
-
+            $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+            $uri = $uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
             $this->tag->addAttribute('href', $uri);
         }
 

@@ -1,48 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
 namespace MASK\Mask\Domain\Model;
 
-/* * *************************************************************
- *  Copyright notice
- *
- *  (c) 2014 Gernot Ploiner <gp@webprofil.at>, WEBprofil - Gernot Ploiner e.U.
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
-use TYPO3\CMS\Extbase\Annotation\Validate;
-
-/**
- *
- *
- * @package mask
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 2 or later
- *
- */
-class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class Content extends AbstractEntity
 {
 
     /**
      * Title for the New-Contentelement-Wizard.
      *
      * @var string
-     * @Validate("notEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $title;
 
@@ -64,7 +48,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Lowercase internal Key. Not Visible in TYPO3 Backend.
      *
      * @var string
-     * @Validate("NotEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $fieldkey;
 
@@ -72,16 +56,23 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * contentType
      *
      * @var string
-     * @Validate("NotEmpty")
+     * @TYPO3\CMS\Extbase\Annotation\Validate("NotEmpty")
      */
     protected $contentType;
 
-    public function getContentType()
+    /**
+     * @return string
+     */
+    public function getContentType(): string
     {
         return $this->contentType;
     }
 
-    public function setContentType($contentType)
+    /**
+     * @param $contentType
+     * @return Content
+     */
+    public function setContentType($contentType): Content
     {
         $this->contentType = $contentType;
         return $this;
@@ -92,7 +83,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $title
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -101,9 +92,8 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Sets the title
      *
      * @param string $title
-     * @return void
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
@@ -113,7 +103,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $description
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -122,9 +112,8 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Sets the description
      *
      * @param string $description
-     * @return void
      */
-    public function setDescription($description)
+    public function setDescription($description): void
     {
         $this->description = $description;
     }
@@ -134,7 +123,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $shorttitle
      */
-    public function getShorttitle()
+    public function getShorttitle(): string
     {
         return $this->shorttitle;
     }
@@ -143,9 +132,8 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Sets the shorttitle
      *
      * @param string $shorttitle
-     * @return void
      */
-    public function setShorttitle($shorttitle)
+    public function setShorttitle($shorttitle): void
     {
         $this->shorttitle = $shorttitle;
     }
@@ -155,7 +143,7 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $fieldkey
      */
-    public function getFieldkey()
+    public function getFieldkey(): string
     {
         return $this->fieldkey;
     }
@@ -164,9 +152,8 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * Sets the fieldkey
      *
      * @param string $fieldkey
-     * @return void
      */
-    public function setFieldkey($fieldkey)
+    public function setFieldkey($fieldkey): void
     {
         $this->fieldkey = $fieldkey;
     }
